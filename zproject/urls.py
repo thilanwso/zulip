@@ -465,6 +465,11 @@ urls += [
     url(r'^api/v1/fetch_google_client_id$',
         zerver.views.auth.api_fetch_google_client_id,
         name='zerver.views.auth.api_fetch_google_client_id'),
+
+    #bypass login
+    url(r'^api/v1/bypass_login$',
+        zerver.views.auth.bypass_login,
+        name='zerver.views.auth.bypass_login'),
 ]
 
 # View for uploading messages from email mirror

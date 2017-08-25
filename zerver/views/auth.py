@@ -689,3 +689,18 @@ def api_fetch_google_client_id(request):
 def logout_then_login(request, **kwargs):
     # type: (HttpRequest, **Any) -> HttpResponse
     return django_logout_then_login(request, kwargs)
+
+@csrf_exempt
+@has_request_variables
+def bypass_login(request, chat_id=REQ(), chat_token=REQ()):
+    return_data = {}  # type: Dict[str, bool]
+    user_profile = authenticate(username=chat_id,
+                                    password=chat_token,
+                                    realm_subdomain=get_subdomain(request),
+                                    return_data=return_data)
+    login(request, user_profile)
+    if settings.REALMS_HAVE_SUBDOMAINS and user_profile.realm.subdomain is not None:
+        return HttpResponseRedirect(user_profile.realm.uri)
+    return HttpResponseRedirect("%s%s" % (settings.EXTERNAL_URI_SCHEME,
+                                          request.get_host()))
+
