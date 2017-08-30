@@ -92,9 +92,9 @@ var page_params = {{ page_params }};
     <div class="alert alert_sidebar alert-error home-error-bar" id="reloading-application"></div>
 </div>
 <div class="app-main">
-    <div class="column-left">
-          {% include "zerver/left_sidebar.html" %}
-    </div>
+    <!-- <div class="column-left">
+          
+    </div> -->
     <div class="column-middle">
         <div class="column-middle-inner tab-content">
             <div class="tab-pane active" id="home">
@@ -131,7 +131,16 @@ var page_params = {{ page_params }};
         </div><!--/tab-content-->
     </div>
     <div class="column-right">
-          {% include "zerver/right_sidebar.html" %}
+            <div class="right-sidebar" id="right-sidebar">
+                    <ul id="tabs">
+                            
+                                  <li><a href="#tab1">USERS</a></li>
+                                  <li><a href="#tab2">GROUPS</a></li>
+                            
+                            </ul>
+                            <div class="tab-container" id="tab1">{% include "zerver/right_sidebar.html" %}</div>
+                                    <div class="tab-container" id="tab2">{% include "zerver/left_sidebar.html" %}</div>
+            </div>
     </div><!--/right sidebar-->
     {% include "zerver/lightbox_overlay.html" %}
     {% include "zerver/subscriptions.html" %}

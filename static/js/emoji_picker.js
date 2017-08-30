@@ -2,6 +2,11 @@ var emoji_picker = (function () {
 
 var exports = {};
 
+// Emoji picker is of fixed width and height. Update these
+// whenever these values are changed in `reactions.css`.
+var APPROX_HEIGHT = 330;
+var APPROX_WIDTH = 255;
+
 // The functionalities for reacting to a message with an emoji
 // and composing a message with an emoji share a single widget,
 // implemented as the emoji_popover.
@@ -193,10 +198,10 @@ exports.render_emoji_popover = function (elt, id) {
         class: "emoji-info-popover",
         categories: get_rendered_emoji_categories(),
     };
+    var placement = popovers.compute_placement(elt, APPROX_HEIGHT, APPROX_WIDTH, true);
     elt.popover({
         // temporary patch for handling popover placement of `viewport_center`
-        placement: popovers.compute_placement(elt) === 'viewport_center' ?
-            'right' : popovers.compute_placement(elt),
+        placement: placement === 'viewport_center' ? 'left' : placement,
         template:  templates.render('emoji_popover', template_args),
         title:     "",
         content:   generate_emoji_picker_content(id),
@@ -321,7 +326,7 @@ function maybe_select_emoji(e) {
             } else {
                 reactions.toggle_emoji_reaction(
                     current_msg_list.selected_id(),
-                    first_emoji.attr('title')
+                    first_emoji.data("emoji-name")
                 );
             }
         }
@@ -345,7 +350,7 @@ exports.toggle_selected_emoji = function () {
         return;
     }
 
-    var emoji_name = selected_emoji.title;
+    var emoji_name = $(selected_emoji).data("emoji-name");
 
     reactions.toggle_emoji_reaction(message_id, emoji_name);
 };
@@ -431,14 +436,25 @@ exports.navigate = function (event_name) {
     var is_filter_focused = $('.emoji-popover-filter').is(':focus');
     var next_section = 0;
     // special cases
-    if (is_filter_focused && event_name === 'down_arrow') {
-        // move down into emoji map
-        selected_emoji.focus();
-        if (current_section === 0 && current_index < 6) {
-            $(".emoji-popover-emoji-map").scrollTop(0);
+    if (is_filter_focused) {
+        // Move down into emoji map.
+        var filter_text = $(".emoji-popover-filter").val();
+        var is_cursor_at_end = $(".emoji-popover-filter").caret() === filter_text.length;
+        if (event_name === "down_arrow" ||
+           (is_cursor_at_end && event_name === "right_arrow")) {
+            selected_emoji.focus();
+            if (current_section === 0 && current_index < 6) {
+                $(".emoji-popover-emoji-map").scrollTop(0);
+            }
+            return true;
         }
-        return true;
-    } else if (current_section === 0 && current_index < 6 && event_name === 'up_arrow') {
+        if (event_name === "tab") {
+            selected_emoji.focus();
+            return true;
+        }
+        return false;
+    } else if ((current_section === 0 && current_index < 6 && event_name === 'up_arrow') ||
+               (current_section === 0 && current_index === 0 && event_name === 'left_arrow')) {
         if (selected_emoji) {
             // In this case, we're move up into the reaction
             // filter. Here, we override the default browser
@@ -455,11 +471,7 @@ exports.navigate = function (event_name) {
             return true;
         }
     } else if (event_name === 'tab') {
-        if (is_filter_focused) {
-            selected_emoji.focus();
-        } else {
-            change_focus_to_filter();
-        }
+        change_focus_to_filter();
         return true;
     } else if (event_name === 'shift_tab') {
         if (!is_filter_focused) {
@@ -527,7 +539,7 @@ exports.register_click_handlers = function () {
         // if the user has reacted to this message with this emoji
         // the reaction is removed
         // otherwise, the reaction is added
-        var emoji_name = this.title;
+        var emoji_name = $(this).data("emoji-name");
         var message_id = $(this).parent().parent().attr('data-message-id');
 
         var message = message_store.get(message_id);
@@ -543,7 +555,8 @@ exports.register_click_handlers = function () {
     });
 
     $(document).on('click', '.emoji-popover-emoji.composition', function (e) {
-        var emoji_text = ':' + this.title + ':';
+        var emoji_name = $(this).data("emoji-name");
+        var emoji_text = ':' + emoji_name + ':';
         var textarea = $("#new_message_content");
         textarea.caret(emoji_text);
         textarea.focus();

@@ -7,7 +7,7 @@ html {
 
     touch-action: manipulation;
 }
-
+a,a:active,a:focus{outline: none}
 #css-loading {
     display: none !important; /* We are now loaded, by definition. */
 }
@@ -51,14 +51,6 @@ a {
     user-select: none;
 }
 
-.auto-select {
-    -webkit-touch-callout: auto;
-    -webkit-user-select: auto;
-    -moz-user-select: auto;
-    -ms-user-select: auto;
-    user-select: auto;
-}
-
 p.n-margin {
     margin: 10px 0px 0px 0px;
 }
@@ -78,7 +70,7 @@ p.n-margin {
 .float-clear {
     clear: both;
 }
-
+.hidden{display: none}
 .no-margin {
     margin: 0;
 }
@@ -178,7 +170,7 @@ p.n-margin {
     width: 100%;
     background: #ffffff;
     border-bottom: 1px solid hsl(0, 0%, 85%);
-    height: 40px;
+    height: 50px;
 }
 
 .app {
@@ -193,7 +185,7 @@ p.n-margin {
 .header-main {
     width: 100%;
     max-width: 1400px;
-    min-width: 950px;
+    min-width: 800px;
     margin: 0px auto;
     padding: 0px;
     position: relative;
@@ -215,6 +207,7 @@ p.n-margin {
 .column-right {
     width: 250px;
     max-width: 250px;
+    z-index: 1000;
 }
 
 .column-left {
@@ -225,15 +218,17 @@ p.n-margin {
 
 .column-right {
     position: absolute;
-    right: 0px;
+    right: -13px;
     top: 0px;
 }
 
 .app-main .column-left .left-sidebar,
 .app-main .column-right .right-sidebar {
     position: fixed;
-    margin-top: 50px;
     z-index: 100;
+    background: #f0f4f8;
+    border: 1px solid #d8e5ef;
+    height: 100%;
 }
 
 .app-main .column-left .left-sidebar {
@@ -242,7 +237,6 @@ p.n-margin {
 }
 
 .app-main .column-right .right-sidebar {
-    padding-left: 15px;
     width: 235px;
 }
 
@@ -253,10 +247,41 @@ p.n-margin {
 
 .column-middle {
     margin-right: 250px;
-    margin-left: 250px;
+    /* margin-left: 250px; */
     position: relative;
 }
-
+#tabs{white-space: nowrap;margin: 0;overflow: hidden}
+#tabs li{
+    display: inline-block;
+    list-style: none;
+    width: 50%;
+}
+.right-sidebar .topic-list {display: none}
+.right-sidebar #tabs a{   
+     display: inline-block;
+     width: 100%;
+    padding: 15px 20px 14px 20px;
+    position: relative;
+border-bottom: 1px solid #c7d8e5;
+}
+.right-sidebar h4.sidebar-title{display: none}
+.right-sidebar .sidebar-items{padding-top: 15px}
+.right-sidebar #tabs a:hover{text-decoration: none}
+.right-sidebar #tabs a.active:before{ content:'';
+    border: 9px solid transparent;
+    border-bottom-color: #c7d8e5;
+    z-index: 2;
+    top: 32px;
+    left: 29px;position: absolute;}
+.right-sidebar #tabs a.active:after{ 
+    content:'';
+    border: 8px solid transparent;
+    border-bottom-color: #f0f4f8;
+    z-index: 3;
+    top: 34px;
+    left: 30px;position: absolute;
+}
+   .tab-container{padding-left: 15px;}
 textarea,
 input {
     font-family: 'Humbug', Helvetica, Arial, sans-serif;
@@ -513,9 +538,6 @@ a:hover code {
     position: relative;
 }
 
-.message_header_stream a.message_label_clickable {
-    color: hsl(0, 0%, 20%);
-}
 
 li.actual-dropdown-menu i {
     /* In gear menu, make icons the same width so labels line up. */
@@ -683,11 +705,11 @@ td.pointer {
     position: relative;
     z-index: 0;
 }
-
+.message_header .recipient_bar_controls {display: none}
 .message_list .recipient_row {
-    background: hsl(0, 0%, 94%);
-    border-bottom: 1px solid hsl(0, 0%, 88%);
-    border-top: 1px solid hsl(0, 0%, 88%);
+    /* background: hsl(0, 0%, 94%); */
+    /* border-bottom: 1px solid hsl(0, 0%, 88%);
+    border-top: 1px solid hsl(0, 0%, 88%); */
     margin-bottom: 10px;
 }
 
@@ -702,10 +724,10 @@ td.pointer {
     height: 17px;
     line-height: 17px;
     border-top-color: hsla(0, 0%, 0%, 0.0);
-    border-right-color: hsla(0, 0%, 0%, 0.0);
+    border-right-color: transparent !important;
     border-bottom-color: hsla(0, 0%, 0%, 0.0);
     background-color: hsl(0, 0%, 88%);
-    border-left-color: hsl(0, 0%, 88%);
+    border-left-color: transparent !important;
     border-width: 0px;
     position: relative;
     text-decoration: none;
@@ -763,6 +785,7 @@ td.pointer {
     margin-left: -5px;
     height: 17px;
     line-height: 17px;
+    display: none;
 }
 
 .recipient_row_date {
@@ -989,16 +1012,27 @@ td.pointer {
     border-bottom: 0px;
     border-left: 0px;
 }
-
+.narrowed_view .message_header_stream ,.narrowed_view .message_header_private_message {display: none}
+.message_header_stream a.message_label_clickable {
+    color:#fff;
+    background: hsl(201.9, 93.9%, 19.4%) !important;
+    padding: 2px 10px;
+    border-radius: 0 0 3px 3px;
+    min-width: 150px;
+    text-align: center;
+}
 .message_header_private_message .message_label_clickable {
-    background-color: hsl(0, 0%, 27%);
+    color:#fff;
+    background: hsl(201.9, 93.9%, 19.4%) !important;
+    padding: 2px 10px;
     display: inline-block;
-    padding: 3px 4px 2px 4px;
     font-weight: normal;
     font-size: 14px;
     height: 17px;
     line-height: 17px;
-    border-left-color: hsl(0, 0%, 27%);
+    border-radius: 0 0 3px 3px;
+    min-width: 150px;
+    text-align: center;
 }
 
 /* Base color backgrounds for messageboxes,
@@ -1007,19 +1041,20 @@ td.pointer {
 .messagebox {
     background-color: #ffffff;
     position: relative;
+    box-shadow: none !important;
 }
 
 .private-message .messagebox,
 .message_header_private_message .message-header-contents {
-    background-color: hsl(192, 19%, 95%);
+    /* background-color: hsl(192, 19%, 95%); */
 }
-
+/* 
 .message-header-contents {
     border-right: 1px solid hsl(0, 0%, 88%);
-}
+} */
 
-.mention .messagebox {
-    background-color: hsl(8, 94%, 94%);
+.mention .messagebox-content {
+    /* background-color: hsl(8, 94%, 94%); */
 }
 
 .messagebox .message_top_line {
@@ -1082,14 +1117,6 @@ td.pointer {
     z-index: 1;
 }
 
-.selected_message .messagebox-content {
-    box-shadow: inset 0px 0px 0px 2px hsl(215, 47%, 50%),
-                     -1px -1px 0px 0px hsl(215, 47%, 50%),
-                      1px 1px 0px 0px hsl(215, 47%, 50%),
-                     -1px 1px 0px 0px hsl(215, 47%, 50%),
-                      1px -1px 0px 0px hsl(215, 47%, 50%);
-}
-
 .message_sender {
     height: 0px;
     vertical-align: top;
@@ -1103,7 +1130,8 @@ td.pointer {
     vertical-align: top;
     line-height: 12px;
     font-size: 14px;
-    margin-left: -3px;
+    margin-left: 6px;
+    margin-top: 19px;
 }
 
 .sender-status {
@@ -1165,7 +1193,7 @@ td.pointer {
 
 a.message_label_clickable:hover {
     cursor: pointer;
-    color: hsl(200, 100%, 40%);
+    color: #fff !important;
 }
 
 .on_hover_topic_edit {
@@ -1287,10 +1315,11 @@ div.message_table {
 
 .message_row {
     position: relative;
-    border-left: 1px solid hsl(0, 0%, 88%);
-    border-right: 1px solid hsl(0, 0%, 88%);
 }
-
+.sent-by-me .inline_profile_picture{
+    visibility: hidden;
+}
+.sent-by-me .sender_name,.private-message .sender_name {display: none}
 .message_row.selected_message {
     z-index: 2;
 }
@@ -1300,17 +1329,56 @@ div.focused_table {
 }
 
 .include-sender .message_content:not(:empty) {
-    margin-top: -16px;
+    margin-top: -36px;
 }
 
 .message_content {
+    padding: 15px;
     line-height: 17px;
     font-size: 14px;
-    margin-left: 46px;
+    margin-left: 55px;
     display: block;
     position: relative;
+    background: #f1f0f0;
+    color: #535a64;
+    border-radius: 4px;
+    position: relative;
 }
-
+.messagebox-content .info.actions_hover{display: none}
+.prev_is_same_sender .message_content:before,
+.prev_is_same_sender .message_content:after{border:none}
+.message_content:before{ content:'';
+    border: 9px solid transparent;
+    border-right-color: #f1f0f0;
+    z-index: 2;
+    top: 13px;
+    left: -15px;
+    position: absolute;}
+.message_content:after{ 
+    content:'';
+    border: 8px solid transparent;
+    border-right-color: #f1f0f0;
+    z-index: 3;
+    top: 15px;
+    left: -14px;
+    position: absolute;
+}
+.sent-by-me .message_content{
+    background: #0084ff;
+    color: #fff;
+}
+.sent-by-me .message_content:after{
+    border-right-color: transparent;
+    border-left-color: #0084ff;
+    left: inherit;
+    right: -16px;
+}
+.sent-by-me .message_content:before{
+    border-right-color: transparent;
+    border-left-color: #0084ff;
+    left: inherit;
+    right: -16px;
+}
 .message_content:empty {
     display: none;
 }
@@ -1455,7 +1523,7 @@ blockquote p {
     vertical-align: top;
     border: none;
 }
-
+.messagebox:not(.next_is_same_sender) { margin-bottom: 30px;}
 .messagebox-content {
     padding: 4px 115px 1px 10px;
 }
@@ -1504,6 +1572,7 @@ blockquote p {
     vertical-align: top;
     border-radius: 4px;
     overflow: hidden;
+    border-radius: 50%;
 }
 
 .home-error-bar {
@@ -1534,19 +1603,29 @@ blockquote p {
 
 #tab_bar {
     z-index: 2;
+    
     padding-top: 0px;
     overflow: hidden;
     text-overflow: ellipsis;
     float: left;
     letter-spacing: normal;
-    height: 40px;
+    width: 100%;
+    /* border-top:#d8e5ef solid 1px;
+    border-left:#d8e5ef solid 1px; */
+    border-radius: 4px 0 0 0;
+    background: #fff;
+    height: 46px;
+}
+
+.narrowed_view #tab_bar{
+    margin-top: 10px;
+    height: 38px;
 }
 
 #tab_list {
     list-style: none;
     margin: 0px 0px 0px 0px;
-    height: 40px;
-    line-height: 40px;
+    line-height: 50px;
     font-size: 16px;
     border: none;
     white-space: nowrap;
@@ -1555,16 +1634,17 @@ blockquote p {
 #tab_list li {
     white-space: nowrap;
     list-style-type: none;
-    display: inline-block;
+    display: block;
     position: relative;
-    font-weight: 300;
-    background-color: hsl(0, 0%, 97%);
+    background-color: none;
     margin: 0px;
     padding: 0px;
-    text-overflow: ellipsis;
-    height: 40px;
+    font-size: 18px;
+    color: #023554;
 }
-
+#tab_list li i{
+    color: #7fba00;
+}
 #tab_list li.inactive {
     border-top-color: hsla(0, 0%, 0%, 0.0);
     border-right-color: hsla(0, 0%, 0%, 0.0);
@@ -1626,11 +1706,14 @@ blockquote p {
 #tab_list li.active {
     padding-left: 17px;
     padding-right: 10px;
-    background-color: hsl(0, 0%, 88%);
-    max-width: 120px;
+    background-color: none;
+    /* max-width: 120px; */
+    width: 100%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    background: none !important;
+    border-left-color:transparent !important;
 }
 
 #tab_list li.active.root {
@@ -1648,8 +1731,8 @@ blockquote p {
 }
 
 #tab_list .root {
-    border-color: hsl(0, 0%, 88%);
-    background-color: hsl(0, 0%, 88%);
+    /* border-color: hsl(0, 0%, 88%);
+    background-color: hsl(0, 0%, 88%); */
     margin: 0px;
 }
 
@@ -1676,7 +1759,7 @@ blockquote p {
     height: 10px;
     z-index: 99;
 }
-
+.left-sidebar ul.filters li:hover .arrow,#global_filters{display: none}
 #navbar-buttons {
     white-space: nowrap;
     margin-left: 15px;
@@ -1784,7 +1867,7 @@ blockquote p {
 
 #searchbox .input-append {
     position: relative;
-    width: 100%;
+    width: 98%;
 }
 
 #searchbox .input-append .icon-vector-search {
@@ -1837,21 +1920,22 @@ nav a .no-style {
     width: auto;
     float: none;
     overflow: hidden;
-    border-right: 1px solid hsl(0, 0%, 85%);
+    border-right: 1px solid rgba(0, 0, 0,0);
     height: 40px;
+    background: #fff;
+    display: none;
 }
 
 #search_query {
     width: 100%;
     font-size: 18px;
-    height: 40px;
+    height: 39px;
     padding: 0px;
     color: hsl(0, 0%, 13%);
-    box-shadow: inset 2px 0px 0px 0px hsl(204, 20%, 74%);
+    border: 1px solid #d8e5ef;
     padding-left: 35px;
     padding-right: 20px;
     background: hsl(0, 0%, 100%); /* Old browsers */
-    border: none;
     border-radius: 0px;
     font-family: 'Humbug';
     font-weight: 300;
@@ -1860,7 +1944,7 @@ nav a .no-style {
 
 
 #search_query:focus {
-    box-shadow: inset 0px 0px 0px 2px hsl(204, 20%, 74%);
+    box-shadow: inset 0px 0px 0px 1px rgba(237, 241, 244, 0.00);
 }
 
 #searchbox .search_button,
@@ -1946,7 +2030,7 @@ div.floating_recipient {
 }
 
 .message-header-contents {
-    background: hsl(0, 0%, 88%);
+    /* background: hsl(0, 0%, 88%); */
 }
 
 .recipient_row.sticky {
@@ -2251,7 +2335,7 @@ button.topic_edit_cancel {
     padding: 7px 15px;
     border-color: hsl(0, 0%, 86%);
 }
-
+#invite-user-link{display: none}
 #invite-user .modal-header .exit {
     font-size: 1.5rem;
     font-weight: 600;
@@ -2281,7 +2365,6 @@ button.topic_edit_cancel {
 
 #invite-user .modal-body {
     margin-bottom: 58px;
-    position: relative;
 }
 
 #invite-user .modal-footer {
@@ -2341,7 +2424,7 @@ button.topic_edit_cancel {
     text-align: center;
 }
 
-.message-fade,
+
 .user_sidebar_entry.user-fade {
     opacity: 0.4;
 }
@@ -2583,14 +2666,16 @@ img.emoji {
     font-size: 20px;
 }
 
-#home {
-    margin-top: 41px;
+#home,.tab-pane {
+    margin-top: 39px;
 }
 
 .message-pane {
     padding-left: 0.3em;
 }
-
+.message_table {
+    box-sizing:border-box;
+}
 .screen {
     position: absolute;
     left: 0;
@@ -2700,3 +2785,11 @@ img.emoji {
     -webkit-user-select: none;
     -ms-user-select: none;
 }
+.all-messages{    
+    display: block;
+    font-size: 90%;
+    font-weight: 500;
+    text-align: center
+}
+.all-msg-link{margin: 5px}
+.extra_block{padding-left: 10px}

@@ -43,10 +43,11 @@ exports.restore_stream_list_size = function () {
 
 
 function stream_popover_sub(e) {
-    var stream_id = $(e.currentTarget).parents('ul').attr('data-stream-id');
-    var sub = stream_data.get_sub_by_id(stream_id);
+    // TODO: use data-stream-id in stream list
+    var stream_name = $(e.currentTarget).parents('ul').attr('data-name');
+    var sub = stream_data.get_sub(stream_name);
     if (!sub) {
-        blueslip.error('Unknown stream: ' + stream_id);
+        blueslip.error('Unknown stream: ' + stream_name);
         return;
     }
     return sub;
@@ -83,11 +84,11 @@ function build_stream_popover(e) {
     popovers.hide_all();
     exports.show_streamlist_sidebar();
 
-    var stream_id = $(elt).parents('li').attr('data-stream-id');
+    var stream = $(elt).parents('li').attr('data-name');
 
     var content = templates.render(
         'stream_sidebar_actions',
-        {stream: stream_data.get_sub_by_id(stream_id)}
+        {stream: stream_data.get_sub(stream)}
     );
 
     $(elt).popover({
@@ -97,7 +98,8 @@ function build_stream_popover(e) {
     });
 
     $(elt).popover("show");
-    var popover = $('.streams_popover[data-stream-id=' + stream_id + ']');
+    var data_id = stream_data.get_sub(stream).stream_id;
+    var popover = $('.streams_popover[data-id=' + data_id + ']');
 
     update_spectrum(popover, function (colorpicker) {
         colorpicker.spectrum(stream_color.sidebar_popover_colorpicker_options);
@@ -118,24 +120,24 @@ function build_topic_popover(e) {
         return;
     }
 
-    var stream_id = $(elt).closest('.narrow-filter').expectOne().attr('data-stream-id');
-    var topic_name = $(elt).closest('li').expectOne().attr('data-topic-name');
+    var stream_name = $(elt).closest('.topic-list').expectOne().attr('data-stream');
+    var topic_name = $(elt).closest('li').expectOne().attr('data-name');
 
-    var sub = stream_data.get_sub_by_id(stream_id);
+    var sub = stream_data.get_sub(stream_name);
     if (!sub) {
-        blueslip.error('cannot build topic popover for stream: ' + stream_id);
+        blueslip.error('cannot build topic popover for stream: ' + stream_name);
         return;
     }
 
     popovers.hide_all();
     exports.show_streamlist_sidebar();
 
-    var is_muted = muting.is_topic_muted(sub.name, topic_name);
+    var is_muted = muting.is_topic_muted(stream_name, topic_name);
     var can_mute_topic = !is_muted;
     var can_unmute_topic = is_muted;
 
     var content = templates.render('topic_sidebar_actions', {
-        stream_name: sub.name,
+        stream_name: stream_name,
         stream_id: sub.stream_id,
         topic_name: topic_name,
         can_mute_topic: can_mute_topic,
@@ -175,7 +177,7 @@ exports.register_stream_handlers = function () {
         // the template for subs needs to render.
 
         subs.onlaunch("narrow_to_row", function () {
-            $(".stream-row[data-stream-id='" + sub.stream_id + "']").click();
+            $(".stream-row[data-stream-name='" + sub.name + "']").click();
         }, true);
     });
 

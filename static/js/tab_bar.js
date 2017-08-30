@@ -58,8 +58,8 @@ function make_tab_data() {
         } else if (filter.has_operator("pm-with") ||
                    filter.has_operand("is", "private")) {
 
-            tabs.push(make_tab("Private Messages", '#narrow/is/private',
-                                undefined, 'private_message '));
+           // tabs.push(make_tab("Private Messages", '#narrow/is/private',
+                  //              undefined, 'private_message '));
 
             if (filter.has_operator("pm-with")) {
                 var emails = filter.operands("pm-with")[0].split(',');
@@ -96,6 +96,7 @@ function make_tab_data() {
         // Third breadcrumb item for stream-subject naarrows
         if (filter.has_operator("stream") &&
             filter.has_operator("topic")) {
+            stream = filter.operands("stream")[0];
             var subject = filter.operands("topic")[0];
             hashed = hashchange.operators_to_hash(ops.slice(0, 2));
 

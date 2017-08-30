@@ -1,44 +1,29 @@
 $(function () {
-    $("#stream-filters-container").perfectScrollbar({
-        suppressScrollX: true,
-        useKeyboard: false,
-        wheelSpeed: 0.5,
-    });
+    // $("#stream-filters-container").perfectScrollbar({
+    //     suppressScrollX: true,
+    //     useKeyboard: false,
+    //     wheelSpeed: 0.5,
+    // });
 });
 
+function scrollbarWidth() {
+    $('body').prepend('<div id="outertest" style="width:200px; height:150px; position: absolute; top: 0; left: 0; overflow-x:hidden; overflow-y:scroll; background: #ff0000; visibility: hidden;"><div id="innertest" style="width:100%; height: 200px; overflow-y: visible;">&nbsp;</div></div>');
 
-// From https://stackoverflow.com/questions/13382516/getting-scroll-bar-width-using-javascript
-function getScrollbarWidth() {
-    var outer = document.createElement("div");
-    outer.style.visibility = "hidden";
-    outer.style.width = "100px";
-    outer.style.msOverflowStyle = "scrollbar"; // needed for WinJS apps
+    var scrollwidth = $("#outertest").safeOuterWidth() - $("#innertest").safeOuterWidth();
 
-    document.body.appendChild(outer);
+    $("#outertest").remove();
 
-    var widthNoScroll = outer.offsetWidth;
-    // force scrollbars
-    outer.style.overflow = "scroll";
-
-    // add innerdiv
-    var inner = document.createElement("div");
-    inner.style.width = "100%";
-    outer.appendChild(inner);
-
-    var widthWithScroll = inner.offsetWidth;
-
-    // remove divs
-    outer.parentNode.removeChild(outer);
-
-    return widthNoScroll - widthWithScroll;
+    return scrollwidth;
 }
-
 
 // Workaround for browsers with fixed scrollbars
 $(function () {
-   var sbWidth = getScrollbarWidth();
+
+
+   var sbWidth = scrollbarWidth();
 
    if (sbWidth > 0) {
+
     $(".header").css("left", "-" + sbWidth + "px");
     $(".header-main").css("left", sbWidth + "px");
     $(".header-main").css("max-width", (1400 + sbWidth) + "px");
@@ -57,8 +42,7 @@ $(function () {
                                "margin-right": (250 + sbWidth) + "px"});
     $("#compose-container").css("max-width", (1400 + sbWidth) + "px");
 
-    $("head").append("<style> @media (max-width: 975px) { .compose-content, .header-main .column-middle { margin-right: " + (7 + sbWidth) + "px !important; } } " +
-                     "@media (max-width: 775px) { .fixed-app .column-middle { margin-left: " + (7 + sbWidth) + "px !important; } } " +
+    $("head").append("<style> @media (max-width: 775px) { .fixed-app .column-middle { margin-left: " + (7 + sbWidth) + "px !important; } } " +
                      "</style>");
    }
 

@@ -69,10 +69,4 @@ const Ps = require('perfect-scrollbar');
     $(".hamburger").click(function () {
         $(".sidebar").toggleClass("show");
     });
-
-    $(".markdown").click(function () {
-        if ($(".sidebar.show").length) {
-            $(".sidebar.show").toggleClass("show");
-        }
-    });
 }());

@@ -51,10 +51,6 @@ function user_last_seen_time_status(user_id) {
         // is hidden for this case
         return i18n.t("Unknown");
     }
-    if (page_params.realm_is_zephyr_mirror_realm) {
-        // We don't send presence data to clients in Zephyr mirroring realms
-        return i18n.t("Unknown");
-    }
     return timerender.last_seen_status_from_date(presence.last_active_date(user_id).clone());
 }
 
@@ -237,7 +233,7 @@ exports.actions_menu_handle_keyboard = function (key) {
     var index = items.index(items.filter(':focus'));
 
     if (key === "enter" && index >= 0 && index < items.length) {
-        return items[index].click();
+        return items.eq(index).trigger('click');
     }
     if (index === -1) {
         index = 0;
@@ -556,9 +552,8 @@ exports.register_click_handlers = function () {
         popovers.hide_actions_popover();
         var id = $(this).attr("data-message-id");
         var row = $("[zid='" + id + "']");
-        row.find(".alert-copied")
-            .css("display", "block")
-            .delay(1000).fadeOut(300);
+        row.find(".alert-copied").css("display", "block");
+        row.find(".alert-copied").delay(1000).fadeOut(300);
 
         setTimeout(function () {
             // The Cliboard library works by focusing to a hidden textarea.

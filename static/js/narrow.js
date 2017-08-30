@@ -87,9 +87,6 @@ exports.activate = function (raw_operators, opts) {
         change_hash: true,
         trigger: 'unknown',
     });
-
-    // These two narrowing operators specify what message should be
-    // selected and should be the center of the narrow.
     if (filter.has_operator("near")) {
         opts.then_select_id = parseInt(filter.operands("near")[0], 10);
         opts.select_first_unread = false;
@@ -99,11 +96,8 @@ exports.activate = function (raw_operators, opts) {
         opts.select_first_unread = false;
     }
 
-    // This block is for a case of loading a browser window for the
-    // first time in a narrow.
-    // According to old comments, this shouldn't happen anymore;
-    // more investigation is needed.
     if (opts.then_select_id === -1 && !opts.use_initial_narrow_pointer) {
+        // According to old comments, this shouldn't happen anymore
         blueslip.warn("Setting then_select_id to page_params.pointer.");
         opts.then_select_id = page_params.pointer;
         opts.select_first_unread = false;
@@ -282,53 +276,6 @@ exports.stream_topic = function () {
         stream: narrow_state.stream(),
         topic: narrow_state.topic(),
     };
-};
-
-exports.activate_stream_for_cycle_hotkey = function (stream_name) {
-    // This is the common code for A/D hotkeys.
-
-    var filter_expr = [
-        {operator: 'stream', operand: stream_name},
-    ];
-
-    var opts = {
-        select_first_unread: true,
-    };
-
-    exports.activate(filter_expr, opts);
-};
-
-
-exports.stream_cycle_backward = function () {
-    var curr_stream = narrow_state.stream();
-
-    if (!curr_stream) {
-        return;
-    }
-
-    var stream_name = topic_generator.get_prev_stream(curr_stream);
-
-    if (!stream_name) {
-        return;
-    }
-
-    exports.activate_stream_for_cycle_hotkey(stream_name);
-};
-
-exports.stream_cycle_forward = function () {
-    var curr_stream = narrow_state.stream();
-
-    if (!curr_stream) {
-        return;
-    }
-
-    var stream_name = topic_generator.get_next_stream(curr_stream);
-
-    if (!stream_name) {
-        return;
-    }
-
-    exports.activate_stream_for_cycle_hotkey(stream_name);
 };
 
 exports.narrow_to_next_topic = function () {

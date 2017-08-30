@@ -427,7 +427,7 @@ exports.handle_narrow_activated = function (filter) {
         exports.scroll_stream_into_view(stream_li);
     }
     // Update scrollbar size.
-    $("#stream-filters-container").perfectScrollbar("update");
+    // $("#stream-filters-container").perfectScrollbar("update");
 };
 
 exports.handle_narrow_deactivated = function () {
@@ -455,17 +455,18 @@ exports.initialize = function () {
 
 
     $('#stream_filters').on('click', 'li .subscription_block', function (e) {
-        if (e.metaKey || e.ctrlKey) {
+        if (e.metaKey || e.ctrlKey) { 
             return;
         }
         if (overlays.is_active()) {
             ui_util.change_tab_to('#home');
         }
-        var stream_id = $(e.target).parents('li').attr('data-stream-id');
-        var sub = stream_data.get_sub_by_id(stream_id);
+        //var stream = $(e.target).parents('li').attr('data-name');
+        var stream =  $(this).parent('li').attr('data-stream-name');
         popovers.hide_all();
-        narrow.by('stream', sub.name, {select_first_unread: true, trigger: 'sidebar'});
-
+        narrow.by('stream', stream, {select_first_unread: true, trigger: 'sidebar'});
+              // $('.compose_stream_button').trigger('click');
+        compose_actions.start('stream', {trigger: 'new topic button'});
         e.preventDefault();
         e.stopPropagation();
     });
@@ -529,16 +530,14 @@ function maybe_select_stream(e) {
     if (e.keyCode === 13) {
         // Enter key was pressed
 
-        var top_stream_id = $('#stream_filters li.narrow-filter').first().data('stream-id');
-        // undefined if there are no results
-        if (top_stream_id !== undefined) {
-            var top_stream = stream_data.get_sub_by_id(top_stream_id);
+        var topStream = $('#stream_filters li.narrow-filter').first().data('name');
+        if (topStream !== undefined) {
+            // undefined if there are no results
             if (overlays.is_active()) {
                 ui_util.change_tab_to('#home');
             }
             exports.clear_and_hide_search();
-            narrow.by('stream', top_stream.name,
-                      {select_first_unread: true, trigger: 'sidebar enter key'});
+            narrow.by('stream', topStream, {select_first_unread: true, trigger: 'sidebar enter key'});
             e.preventDefault();
             e.stopPropagation();
         }

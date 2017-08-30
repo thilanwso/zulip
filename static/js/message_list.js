@@ -1,7 +1,6 @@
 var message_list = (function () {
 
-var exports = {};
-
+var exports = {}; 
 exports.narrowed = undefined;
 
 exports.MessageList = function (table_name, filter, opts) {
@@ -27,13 +26,12 @@ exports.MessageList = function (table_name, filter, opts) {
 
     this.narrowed = this.table_name === "zfilt";
 
-    this.num_appends = 0;
-
-    return this;
+    this.num_appends = 0; 
+    return this; 
 };
 
 exports.MessageList.prototype = {
-    add_messages: function MessageList_add_messages(messages, opts) {
+    add_messages: function MessageList_add_messages(messages, opts) { 
         var self = this;
         var predicate = self.filter.predicate();
         var top_messages = [];

@@ -370,13 +370,9 @@ function integration_events() {
         return false;
     });
 
-    // combine selector use for both focusing the integrations searchbar and adding
-    // the input event.
-    $(".integrations .searchbar input[type='text']")
-        .focus()
-        .on('input', function (e) {
-            dispatch('UPDATE_QUERY', { query : e.target.value.toLowerCase() });
-        });
+    $(".integrations .searchbar input[type='text']").on('input', function (e) {
+        dispatch('UPDATE_QUERY', { query : e.target.value.toLowerCase() });
+    });
 
     $(window).scroll(function () {
         if (document.body.scrollTop > 330) {

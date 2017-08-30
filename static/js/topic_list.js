@@ -75,12 +75,15 @@ exports.build_widget = function (parent_elem, my_stream_id, active_topic, max_to
         ul.attr('data-stream', my_stream_name);
 
         _.each(topic_names, function (topic_name, idx) {
+            var show_topic;
             var num_unread = unread.num_unread_for_topic(my_stream_id, topic_name);
 
-            if (!zoomed) {
+            if (zoomed) {
+                show_topic = true;
+            } else {
                 // Show the most recent topics, as well as any with unread messages
-                var show_topic = (idx < max_topics) || (num_unread > 0) ||
-                                 (active_topic === topic_name.toLowerCase());
+                show_topic = (idx < max_topics) || (num_unread > 0) ||
+                             (active_topic === topic_name.toLowerCase());
 
                 if (!show_topic) {
                     hiding_topics = true;
@@ -240,11 +243,10 @@ exports.set_click_handlers = function (callbacks) {
             ui_util.change_tab_to('#home');
         }
 
-        var stream_id = $(e.target).parents('.narrow-filter').attr('data-stream-id');
-        var sub = stream_data.get_sub_by_id(stream_id);
-        var topic = $(e.target).parents('li').attr('data-topic-name');
+        var stream = $(e.target).parents('ul').attr('data-stream');
+        var topic = $(e.target).parents('li').attr('data-name');
 
-        narrow.activate([{operator: 'stream',  operand: sub.name},
+        narrow.activate([{operator: 'stream',  operand: stream},
                          {operator: 'topic', operand: topic}],
                         {select_first_unread: true, trigger: 'sidebar'});
 

@@ -934,7 +934,7 @@ nav ul li.active::after {
 }
 
 .compare tbody tr td.no::before {
-    content: "\d7";
+    content: "×";
 
     position: relative;
     display: inline-block;
@@ -1602,7 +1602,6 @@ nav ul li.active::after {
 
 .portico-landing.apps .hero .info .cta {
     text-shadow: 0px 0px 60px rgba(0,0,0,0.3);
-    max-width: 600px;
 }
 
 .portico-landing.apps .hero .image img[src="/static/images/landing-page/tar.gz.svg"] {
@@ -1742,41 +1741,6 @@ nav ul li.active::after {
 .portico-landing.why-page .main li strong {
     font-weight: 600;
     color: #333;
-}
-
-.portico-landing.why-page .photo-description {
-    position: relative;
-    top: -40px;
-    height: 0;
-
-    font-size: 0.8em;
-    font-weight: normal;
-    color: #888;
-}
-
-.portico-landing.why-page .bg-pycon {
-    position: relative;
-
-    background-image: url(/static/images/landing-page/pycon.jpg);
-    background-size: cover;
-    background-position: center;
-}
-
-.portico-landing.why-page .bg-pycon .bg-dimmer {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-
-    background-color: rgba(15, 24, 48, 0.7);
-
-    z-index: 0;
-}
-
-.portico-landing.why-page .bg-pycon .content {
-    position: relative;
-    z-index: 1;
 }
 
 /* -- hello page styling -- */

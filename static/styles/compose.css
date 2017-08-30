@@ -21,7 +21,7 @@
 }
 
 .message_comp {
-    display: none;
+    /* display: none; */
     padding: 10px 10px 8px 5px;
 }
 
@@ -165,6 +165,10 @@ table.compose_table {
     left: 0px;
     z-index: 2;
     width: 100%;
+    opacity: 0
+}
+.narrowed_view #compose{
+    opacity: 1;
 }
 
 #compose-container {
@@ -177,7 +181,7 @@ table.compose_table {
 
 .compose-content {
     padding: 8px 10px 8px 10px;
-    margin-left: 250px;
+    /* margin-left: 250px; */
     margin-right: 250px;
     position: relative;
 
@@ -368,8 +372,8 @@ input.recipient_box {
     padding-bottom: 2px;
     margin-right: 7px;
     font-weight: 600;
-    border: 1px solid hsl(170, 68%, 41%);
-    background-color: hsl(170, 47%, 54%);
+    border: 1px solid hsl(201.9, 93.9%, 22.4%);
+    background-color: hsl(201.9, 93.9%, 19.4%);
     color: #fff;
 }
 
@@ -387,6 +391,7 @@ input.recipient_box {
     margin-right: 1em;
     margin-left: 5px;
     top: 2px;
+    display: none;
 }
 
 #sending-indicator {
@@ -411,7 +416,16 @@ input.recipient_box {
     text-align: center;
     float: left;
 }
-
+.message_table .stream_topic,
+.message_table .message-header-contents .message_label_clickable,
+.message_table .message-header-contents .icon-vector-eye-close
+{display: none}
+.message_comp .ztable_layout_row{display: none}
+.message_comp #stream-message .message_header_colorblock,.message_comp #private-message .message_header_colorblock{display: none}
+.message_comp #stream-message .message_header_colorblock{display: none}
+.message_comp.compose-content .right_part{display: none}
+.narrowed_view  .message_comp.compose-content{display: block}
+.narrowed_view #compose_controls{display: none !important}
 #compose a.message-control-button:hover {
     color: hsl(0, 0%, 0%);
 }

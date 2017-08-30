@@ -5,6 +5,8 @@ var unread = (function () {
 
 var exports = {};
 
+var unread_messages = new Dict();
+
 exports.suppress_unread_counts = true;
 exports.messages_read_in_narrow = false;
 
@@ -24,16 +26,6 @@ function make_id_set() {
         ids.set(id, true);
     };
 
-    self.has = function (id) {
-        return ids.has(id);
-    };
-
-    self.add_many = function (id_list) {
-        _.each(id_list, function (id) {
-            ids.set(id, true);
-        });
-    };
-
     self.del = function (id) {
         ids.del(id);
     };
@@ -48,8 +40,6 @@ function make_id_set() {
 
     return self;
 }
-
-var unread_messages = make_id_set();
 
 function make_bucketer(options) {
     var self = {};
@@ -109,29 +99,6 @@ exports.unread_pm_counter = (function () {
 
     self.clear = function () {
         bucketer.clear();
-    };
-
-    self.set_pms = function (pms) {
-        _.each(pms, function (obj) {
-            var user_ids_string = obj.sender_id.toString();
-            self.set_message_ids(user_ids_string, obj.unread_message_ids);
-        });
-    };
-
-    self.set_huddles = function (huddles) {
-        _.each(huddles, function (obj) {
-            var user_ids_string = people.pm_lookup_key(obj.user_ids_string);
-            self.set_message_ids(user_ids_string, obj.unread_message_ids);
-        });
-    };
-
-    self.set_message_ids = function (user_ids_string, unread_message_ids) {
-        _.each(unread_message_ids, function (msg_id) {
-            bucketer.add({
-                bucket_key: user_ids_string,
-                item_id: msg_id,
-            });
-        });
     };
 
     self.add = function (message) {
@@ -195,19 +162,6 @@ exports.unread_topic_counter = (function () {
 
     self.clear = function () {
         bucketer.clear();
-    };
-
-
-    self.set_streams = function (objs) {
-        _.each(objs, function (obj) {
-            var stream_id = obj.stream_id;
-            var topic = obj.topic;
-            var unread_message_ids = obj.unread_message_ids;
-
-            _.each(unread_message_ids, function (msg_id) {
-                self.add(stream_id, topic, msg_id);
-            });
-        });
     };
 
     self.add = function (stream_id, topic, msg_id) {
@@ -364,7 +318,7 @@ exports.process_loaded_messages = function (messages) {
             return;
         }
 
-        unread_messages.add(message.id);
+        unread_messages.set(message.id, true);
 
         if (message.type === 'private') {
             exports.unread_pm_counter.add(message);
@@ -457,32 +411,6 @@ exports.set_read_flag = function (message) {
         message.flags.push('read');
     }
     message.unread = false;
-};
-
-exports.load_server_counts = function () {
-    var unread_msgs = page_params.unread_msgs;
-
-    exports.unread_pm_counter.set_huddles(unread_msgs.huddles);
-    exports.unread_pm_counter.set_pms(unread_msgs.pms);
-    exports.unread_topic_counter.set_streams(unread_msgs.streams);
-    exports.unread_mentions_counter.add_many(unread_msgs.mentions);
-
-    _.each(unread_msgs.huddles, function (obj) {
-        unread_messages.add_many(obj.unread_message_ids);
-    });
-    _.each(unread_msgs.pms, function (obj) {
-        unread_messages.add_many(obj.unread_message_ids);
-    });
-    _.each(unread_msgs.streams, function (obj) {
-        unread_messages.add_many(obj.unread_message_ids);
-    });
-    unread_messages.add_many(unread_msgs.mentions);
-};
-
-exports.initialize = function () {
-    if (feature_flags.load_server_counts) {
-        exports.load_server_counts();
-    }
 };
 
 return exports;

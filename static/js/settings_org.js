@@ -65,14 +65,6 @@ exports.toggle_email_change_display = function () {
     $(".change_email_tooltip").toggle();
 };
 
-exports.toggle_allow_message_editing_pencil = function () {
-    if (!meta.loaded) {
-        return;
-    }
-
-    $(".on_hover_topic_edit").toggle();
-};
-
 exports.update_realm_description = function () {
     if (!meta.loaded) {
         return;
@@ -146,7 +138,7 @@ exports.populate_notifications_stream_dropdown = function (stream_list) {
         filter: {
             element: search_input,
             callback: function (item, value) {
-                return item.name.toLowerCase().indexOf(value) >= 0;
+                return item.name.toLowerCase().match(value);
             },
         },
     }).init();
