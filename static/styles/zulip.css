@@ -2793,3 +2793,6 @@ img.emoji {
 }
 .all-msg-link{margin: 5px}
 .extra_block{padding-left: 10px}
+.messagebox #markdown_preview,.messagebox .message-control-button.icon-vector-paper-clip,
+.messagebox .message-control-button.icon-vector-font
+{display: none !important}
