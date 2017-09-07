@@ -698,7 +698,7 @@ def bypass_login(request, chat_id=REQ(), chat_token=REQ()):
                                     password=chat_token,
                                     realm_subdomain=get_subdomain(request),
                                     return_data=return_data)
-    login(request, user_profile)
+    do_login(request, user_profile)
     if settings.REALMS_HAVE_SUBDOMAINS and user_profile.realm.subdomain is not None:
         return HttpResponseRedirect(user_profile.realm.uri)
     return HttpResponseRedirect("%s%s" % (settings.EXTERNAL_URI_SCHEME,
