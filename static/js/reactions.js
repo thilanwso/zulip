@@ -302,25 +302,25 @@ exports.get_message_reactions = function (message) {
                           'in reaction for message ' + message.id);
             return;
         }
-        reaction.user_ids = [];
-        var collapsed_reaction = message_reactions.setdefault(
-            reaction.emoji_name,
-            _.omit(reaction, 'user')
-        );
-        collapsed_reaction.user_ids.push(user_id);
+
+        var user_list = message_reactions.setdefault(reaction.emoji_name, []);
+        user_list.push(user_id);
     });
     var reactions = message_reactions.items().map(function (item) {
-        var reaction = item[1];
-        reaction.emoji_name_css_class = reaction.emoji_code;
-        reaction.count = reaction.user_ids.length;
-        reaction.title = generate_title(reaction.emoji_name, reaction.user_ids);
-        reaction.emoji_alt_code = page_params.emoji_alt_code;
-
-        if (reaction.reaction_type !== 'unicode_emoji') {
+        var emoji_name = item[0];
+        var user_ids = item[1];
+        var reaction = {
+            emoji_name: emoji_name,
+            emoji_name_css_class: emoji.emojis_name_to_css_class[emoji_name],
+            count: user_ids.length,
+            title: generate_title(emoji_name, user_ids),
+            emoji_alt_code: page_params.emoji_alt_code,
+        };
+        if (emoji.all_realm_emojis[reaction.emoji_name]) {
             reaction.is_realm_emoji = true;
             reaction.url = emoji.all_realm_emojis[reaction.emoji_name].emoji_url;
         }
-        if (reaction.user_ids.indexOf(page_params.user_id) !== -1) {
+        if (user_ids.indexOf(page_params.user_id) !== -1) {
             reaction.class = "message_reaction reacted";
         } else {
             reaction.class = "message_reaction";

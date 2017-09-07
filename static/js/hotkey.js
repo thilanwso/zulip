@@ -243,17 +243,12 @@ exports.process_escape_key = function (e) {
 
 // Returns true if we handled it, false if the browser should.
 exports.process_enter_key = function (e) {
-    if ($(".dropdown.open").length && $(e.target).attr("role") === "menuitem") {
+    if ($(".dropdown.open").length) {
         // on #gear-menu li a[tabindex] elements, force a click and prevent default.
         // this is because these links do not have an href and so don't force a
         // default action.
         e.target.click();
         return true;
-    }
-
-    if (hotspots.is_open()) {
-        $(e.target).find('.hotspot.overlay.show .hotspot-confirm').click();
-        return false;
     }
 
     if (emoji_picker.reactions_popped()) {
@@ -354,10 +349,6 @@ exports.process_tab_key = function () {
         return true;
     }
 
-    if (emoji_picker.reactions_popped()) {
-        return emoji_picker.navigate('tab');
-    }
-
     return false;
 };
 
@@ -385,11 +376,6 @@ exports.process_shift_tab_key = function () {
         focused_message_edit_save.closest(".message_edit_form")
                                  .find(".message_edit_content").focus();
         return true;
-    }
-
-    // Shift-tabbing from emoji catalog/search results takes you back to search textbox.
-    if (emoji_picker.reactions_popped()) {
-        return emoji_picker.navigate('shift_tab');
     }
 
     return false;
@@ -454,11 +440,7 @@ exports.process_hotkey = function (e, hotkey) {
     }
 
     if (emoji_picker.reactions_popped()) {
-        return emoji_picker.navigate(event_name);
-    }
-
-    if (hotspots.is_open()) {
-        return false;
+        return emoji_picker.navigate(e, event_name);
     }
 
     if (overlays.info_overlay_open()) {
@@ -582,10 +564,10 @@ exports.process_hotkey = function (e, hotkey) {
             ui.maybe_show_keyboard_shortcuts();
             return true;
         case 'stream_cycle_backward':
-            narrow.stream_cycle_backward();
+            navigate.cycle_stream('backward');
             return true;
         case 'stream_cycle_forward':
-            narrow.stream_cycle_forward();
+            navigate.cycle_stream('forward');
             return true;
         case 'view_selected_stream':
             if (overlays.streams_open()) {

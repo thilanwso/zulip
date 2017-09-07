@@ -1,6 +1,7 @@
 var message_list = (function () {
 
-var exports = {}; 
+var exports = {};
+
 exports.narrowed = undefined;
 
 exports.MessageList = function (table_name, filter, opts) {
@@ -26,12 +27,13 @@ exports.MessageList = function (table_name, filter, opts) {
 
     this.narrowed = this.table_name === "zfilt";
 
-    this.num_appends = 0; 
-    return this; 
+    this.num_appends = 0;
+
+    return this;
 };
 
 exports.MessageList.prototype = {
-    add_messages: function MessageList_add_messages(messages, opts) { 
+    add_messages: function MessageList_add_messages(messages, opts) {
         var self = this;
         var predicate = self.filter.predicate();
         var top_messages = [];
@@ -550,19 +552,6 @@ exports.MessageList.prototype = {
 
     all_messages: function MessageList_all_messages() {
         return this._items;
-    },
-
-    first_unread_message_id: function MessageList_first_unread_message_id() {
-        var first_unread = _.find(this._items, function (message) {
-            return unread.message_unread(message);
-        });
-
-        if (first_unread) {
-            return first_unread.id;
-        }
-
-        // if no unread, return the bottom message
-        return this.last().id;
     },
 
     // Returns messages from the given message list in the specified range, inclusive
