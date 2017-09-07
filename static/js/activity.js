@@ -274,6 +274,7 @@ function info_for(user_id) {
     var status = presence.get_status(user_id);
     var person = people.get_person_from_user_id(user_id);
     return {
+        avatar:person.avatar_url,
         href: narrow.pm_with_uri(person.email),
         name: person.full_name,
         user_id: user_id,
@@ -328,6 +329,7 @@ exports.build_user_sidebar = function () {
     var user_ids = filter_and_sort(presence.get_user_ids());
 
     var user_info = _.map(user_ids, info_for);
+    // console.log(user_info);
     var html = templates.render('user_presence_rows', {users: user_info});
     $('#user_presences').html(html);
 

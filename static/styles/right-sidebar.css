@@ -14,6 +14,8 @@
     list-style-position: inside; /* Draw the bullets inside our box */
     margin-left: 0;
     overflow: auto;
+    line-height: 42px;
+    vertical-align: middle;
 }
 
 #user_presences:hover,
@@ -42,7 +44,7 @@
     display: inline-block;
 }
 
-.user-status-indicator,
+
 .group-pm-status-indicator {
     display: block;
     width: 8px;
@@ -54,25 +56,50 @@
     top: 5px;
     margin-right: 0.5em;
 }
-
-.user_active .user-status-indicator,
+.user-status-indicator
+ {
+    display: block;
+    width: 37px;
+    height: 42px;
+    border-radius: 50%;
+    overflow: hidden;
+    float: left;
+    position: relative;
+    top: 5px;
+    margin-right: 0.5em;
+    margin-bottom: 2px;
+}
+.active-status{color: #7fba00}
+.idle-status{color: #EA9E0C}
+/* .user-status-indicator i.idle-status{background: #fcd116;} */
+.user-status-indicator img {border-radius: 50%;width: 30px;
+    height: 30px;overflow: hidden}
+    .user-status-indicator i {position: absolute;bottom: 10px;right: 0;background: #fff;
+        border-radius: 50%;width: 10px!important;height: 12px;font-size: 14px;}
+    .user_idle .user-status-indicator .active-status,
+    .user_active .user-status-indicator .idle-status
+    {display: none}
+    .user_active .user-status-indicator .active-status,
+    .user_idle .user-status-indicator .idle-status
+    {display: block }
+.user_offline .user-status-indicator i{display: none}
 .group-pm-status-indicator {
-    background-color: hsl(106, 74%, 44%);
-    border-color: hsl(106, 74%, 44%);
+    /* background-color: hsl(106, 74%, 44%); */
+   
 }
 
-.user_idle .user-status-indicator {
+/* .user_idle .user-status-indicator {
     border-color: hsl(29, 84%, 51%);
     background-color: hsl(29, 84%, 51%);
 
-    background: -moz-linear-gradient(top,  hsla(0, 0%, 100%, 0.0) 50%, hsla(29, 84%, 51%, 1.0) 50%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(50%,hsla(0, 0%, 100%, 0.0)), color-stop(50%,hsla(29, 84%, 51%, 1.0))); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top,  hsla(0, 0%, 100%, 0.0) 50%, hsla(29, 84%, 51%, 1.0) 50%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top,  hsla(0, 0%, 100%, 0.0) 50%, hsla(29, 84%, 51%, 1.0) 50%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top,  hsla(0, 0%, 100%, 0.0) 50%, hsla(29, 84%, 51%, 1.0) 50%); /* IE10+ */
-    background: linear-gradient(to bottom,  hsla(0, 0%, 100%, 0.0) 50%, hsla(29, 84%, 51%, 1.0) 50%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ec7e18',GradientType=0 ); /* IE6-9 */
-}
+    background: -moz-linear-gradient(top,  hsla(0, 0%, 100%, 0.0) 50%, hsla(29, 84%, 51%, 1.0) 50%); 
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(50%,hsla(0, 0%, 100%, 0.0)), color-stop(50%,hsla(29, 84%, 51%, 1.0))); 
+    background: -webkit-linear-gradient(top,  hsla(0, 0%, 100%, 0.0) 50%, hsla(29, 84%, 51%, 1.0) 50%); 
+    background: -o-linear-gradient(top,  hsla(0, 0%, 100%, 0.0) 50%, hsla(29, 84%, 51%, 1.0) 50%);
+    background: -ms-linear-gradient(top,  hsla(0, 0%, 100%, 0.0) 50%, hsla(29, 84%, 51%, 1.0) 50%); 
+    background: linear-gradient(to bottom,  hsla(0, 0%, 100%, 0.0) 50%, hsla(29, 84%, 51%, 1.0) 50%); 
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ec7e18',GradientType=0 ); 
+} */
 
 .user_offline .user-status-indicator {
     background-color: none;
@@ -86,6 +113,8 @@
 #user_presences a,
 #group-pms a {
     color: inherit;
+    line-height: 42px;
+    vertical-align: middle;
 }
 
 #invite-user-link i {
@@ -142,16 +171,17 @@
 .group-pms-sidebar-entry .count {
     position: absolute;
     right: 25px;
-    top: 4px;
+    /* top: 4px; */
     padding: 2px 4px 1px 4px;
     background: hsl(105, 2%, 50%);
-    border-radius: 0px;
     color: #ffffff;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: normal;
     letter-spacing: 0.6px;
-
-    border-radius: 4px;
+    top: 11px;
+    width: 10px;
+    border-radius: 50%;
+    text-align: center;
 }
 
 .group-pms-sidebar-entry .count {
@@ -161,7 +191,7 @@
 .user_sidebar_entry .count,
 .group-pms-sidebar-entry .count {
     line-height: 13px;
-    top: 2px;
+    top: 13px;
 }
 
 #userlist-toggle {

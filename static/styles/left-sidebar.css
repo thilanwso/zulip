@@ -51,7 +51,7 @@
 
 #stream_filters {
     overflow: visible;
-    margin: 10px 0px 2px 0px;
+    margin: 22px 0px 2px 0px;
     padding: 0;
     font-weight: normal;
 }
@@ -188,7 +188,7 @@ li.hidden-filter {
     font-size: 12px;
     font-weight: normal;
     letter-spacing: 0.6px;
-    border-radius: 4px;
+    border-radius: 50%;
 }
 
 #global_filters .count {
