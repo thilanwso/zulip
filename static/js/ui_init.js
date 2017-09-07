@@ -262,7 +262,6 @@ $(function () {
     pointer.initialize();
     unread_ui.initialize();
     activity.initialize();
-    emoji_picker.initialize();
     emoji.initialize();
     compose_fade.initialize();
     pm_list.initialize();
