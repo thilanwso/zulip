@@ -14,6 +14,8 @@
     list-style-position: inside; /* Draw the bullets inside our box */
     margin-left: 0;
     overflow: auto;
+    line-height: 42px;
+    vertical-align: middle;
 }
 
 #user_presences:hover,
@@ -42,7 +44,7 @@
     display: inline-block;
 }
 
-.user-status-indicator,
+
 .group-pm-status-indicator {
     display: block;
     width: 8px;
@@ -54,25 +56,40 @@
     top: 5px;
     margin-right: 0.5em;
 }
-
-.user_active .user-status-indicator,
+.user-status-indicator
+ {
+    display: block;
+    width: 37px;
+    height: 42px;
+    border-radius: 50%;
+    overflow: hidden;
+    float: left;
+    position: relative;
+    top: 5px;
+    margin-right: 0.5em;
+    margin-bottom: 2px;
+}
+.user-status-indicator img {border-radius: 50%;width: 30px;
+    height: 30px;border: 2px solid rgba(169, 169, 169, 0.8);overflow: hidden}
+    .user_idle .user-status-indicator img{ border-color: hsl(29, 84%, 51%);}
+    .user_active .user-status-indicator img{ border-color: hsl(106, 76%, 33%);}
 .group-pm-status-indicator {
-    background-color: hsl(106, 74%, 44%);
+    /* background-color: hsl(106, 74%, 44%); */
     border-color: hsl(106, 74%, 44%);
 }
 
-.user_idle .user-status-indicator {
+/* .user_idle .user-status-indicator {
     border-color: hsl(29, 84%, 51%);
     background-color: hsl(29, 84%, 51%);
 
-    background: -moz-linear-gradient(top,  hsla(0, 0%, 100%, 0.0) 50%, hsla(29, 84%, 51%, 1.0) 50%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(50%,hsla(0, 0%, 100%, 0.0)), color-stop(50%,hsla(29, 84%, 51%, 1.0))); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top,  hsla(0, 0%, 100%, 0.0) 50%, hsla(29, 84%, 51%, 1.0) 50%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top,  hsla(0, 0%, 100%, 0.0) 50%, hsla(29, 84%, 51%, 1.0) 50%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top,  hsla(0, 0%, 100%, 0.0) 50%, hsla(29, 84%, 51%, 1.0) 50%); /* IE10+ */
-    background: linear-gradient(to bottom,  hsla(0, 0%, 100%, 0.0) 50%, hsla(29, 84%, 51%, 1.0) 50%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ec7e18',GradientType=0 ); /* IE6-9 */
-}
+    background: -moz-linear-gradient(top,  hsla(0, 0%, 100%, 0.0) 50%, hsla(29, 84%, 51%, 1.0) 50%); 
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(50%,hsla(0, 0%, 100%, 0.0)), color-stop(50%,hsla(29, 84%, 51%, 1.0))); 
+    background: -webkit-linear-gradient(top,  hsla(0, 0%, 100%, 0.0) 50%, hsla(29, 84%, 51%, 1.0) 50%); 
+    background: -o-linear-gradient(top,  hsla(0, 0%, 100%, 0.0) 50%, hsla(29, 84%, 51%, 1.0) 50%);
+    background: -ms-linear-gradient(top,  hsla(0, 0%, 100%, 0.0) 50%, hsla(29, 84%, 51%, 1.0) 50%); 
+    background: linear-gradient(to bottom,  hsla(0, 0%, 100%, 0.0) 50%, hsla(29, 84%, 51%, 1.0) 50%); 
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ec7e18',GradientType=0 ); 
+} */
 
 .user_offline .user-status-indicator {
     background-color: none;
@@ -86,6 +103,8 @@
 #user_presences a,
 #group-pms a {
     color: inherit;
+    line-height: 42px;
+    vertical-align: middle;
 }
 
 #invite-user-link i {

@@ -1333,11 +1333,12 @@ div.focused_table {
 }
 
 .message_content {
-    padding: 15px;
+    padding:5px 15px;
     line-height: 17px;
     font-size: 14px;
     margin-left: 55px;
-    display: block;
+    display: inline-block;
+    vertical-align: top;
     position: relative;
     background: #f1f0f0;
     color: #535a64;
@@ -1351,7 +1352,7 @@ div.focused_table {
     border: 9px solid transparent;
     border-right-color: #f1f0f0;
     z-index: 2;
-    top: 13px;
+    top: 8px;
     left: -15px;
     position: absolute;}
 .message_content:after{ 
@@ -1359,10 +1360,11 @@ div.focused_table {
     border: 8px solid transparent;
     border-right-color: #f1f0f0;
     z-index: 3;
-    top: 15px;
+    top: 10px;
     left: -14px;
     position: absolute;
 }
+.sent-by-me .messagebox-content{text-align: right}
 .sent-by-me .message_content{
     background: #0084ff;
     color: #fff;
@@ -1371,13 +1373,13 @@ div.focused_table {
     border-right-color: transparent;
     border-left-color: #0084ff;
     left: inherit;
-    right: -16px;
+    right: -14px;
 }
 .sent-by-me .message_content:before{
     border-right-color: transparent;
     border-left-color: #0084ff;
     left: inherit;
-    right: -16px;
+    right: -14px;
 }
 .message_content:empty {
     display: none;
@@ -2428,7 +2430,7 @@ button.topic_edit_cancel {
 .user_sidebar_entry.user-fade {
     opacity: 0.4;
 }
-
+.user_sidebar_entry.user_active.user-fade{opacity: 1}
 .emoji {
     height: 25px;
     width: 25px;
@@ -2574,7 +2576,7 @@ img.emoji {
     margin-top: 5px;
     margin-left: 47px;
 }
-
+.message_edit .message-edit-timer-control-group{display: none !important}
 /* Reduce some of the heavy padding from Bootstrap. */
 #message_edit_form {
     margin-bottom: 10px;
@@ -2792,7 +2794,7 @@ img.emoji {
     text-align: center
 }
 .all-msg-link{margin: 5px}
-.extra_block{padding-left: 10px}
+.extra_block{padding-left: 10px;margin-top: 26px;}
 .messagebox #markdown_preview,.messagebox .message-control-button.icon-vector-paper-clip,
 .messagebox .message-control-button.icon-vector-font
 {display: none !important}
