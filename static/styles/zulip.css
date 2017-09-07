@@ -2428,7 +2428,7 @@ button.topic_edit_cancel {
 
 
 .user_sidebar_entry.user-fade {
-    opacity: 0.4;
+    /* opacity: 0.4; */
 }
 .user_sidebar_entry.user_active.user-fade{opacity: 1}
 .emoji {

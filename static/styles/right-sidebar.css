@@ -69,13 +69,23 @@
     margin-right: 0.5em;
     margin-bottom: 2px;
 }
+.active-status{color: #7fba00}
+.idle-status{color: #EA9E0C}
+/* .user-status-indicator i.idle-status{background: #fcd116;} */
 .user-status-indicator img {border-radius: 50%;width: 30px;
-    height: 30px;border: 2px solid rgba(169, 169, 169, 0.8);overflow: hidden}
-    .user_idle .user-status-indicator img{ border-color: hsl(29, 84%, 51%);}
-    .user_active .user-status-indicator img{ border-color: hsl(106, 76%, 33%);}
+    height: 30px;overflow: hidden}
+    .user-status-indicator i {position: absolute;bottom: 10px;right: 0;background: #fff;
+        border-radius: 50%;width: 10px!important;height: 12px;font-size: 14px;}
+    .user_idle .user-status-indicator .active-status,
+    .user_active .user-status-indicator .idle-status
+    {display: none}
+    .user_active .user-status-indicator .active-status,
+    .user_idle .user-status-indicator .idle-status
+    {display: block }
+.user_offline .user-status-indicator i{display: none}
 .group-pm-status-indicator {
     /* background-color: hsl(106, 74%, 44%); */
-    border-color: hsl(106, 74%, 44%);
+   
 }
 
 /* .user_idle .user-status-indicator {
