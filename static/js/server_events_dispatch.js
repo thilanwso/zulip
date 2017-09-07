@@ -120,7 +120,6 @@ exports.dispatch_normal_event = function dispatch_normal_event(event) {
         page_params.realm_emoji = event.realm_emoji;
         emoji.update_emojis(event.realm_emoji);
         settings_emoji.populate_emoji(event.realm_emoji);
-        emoji_picker.generate_emoji_picker_data(emoji.active_realm_emojis);
         break;
 
     case 'realm_filters':
@@ -333,7 +332,10 @@ exports.dispatch_normal_event = function dispatch_normal_event(event) {
             });
             break;
         case 'read':
-            unread_ops.process_read_messages_event(event.messages);
+            var msgs_to_update = _.map(event.messages, function (message_id) {
+                return message_store.get(message_id);
+            });
+            unread_ops.mark_messages_as_read(msgs_to_update, {from: "server"});
             break;
         }
         break;

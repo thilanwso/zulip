@@ -74,9 +74,16 @@ exports.apply_markdown = function (message) {
         },
     };
     message.content = marked(message.raw_content + '\n\n', options).trim();
-    message.is_me_message = (message.raw_content.indexOf('/me ') === 0 &&
-                             message.content.indexOf('<p>') === 0 &&
-                             message.content.lastIndexOf('</p>') === message.content.length - 4);
+};
+
+exports.add_message_flags = function (message) {
+    // Note: mention flags are set in apply_markdown()
+
+    if (message.raw_content.indexOf('/me ') === 0 &&
+        message.content.indexOf('<p>') === 0 &&
+        message.content.lastIndexOf('</p>') === message.content.length - 4) {
+        message.flags.push('is_me_message');
+    }
 };
 
 exports.add_subject_links = function (message) {
@@ -183,7 +190,7 @@ function handleTex(tex, fullmatch) {
     try {
         return katex.renderToString(tex);
     } catch (ex) {
-        if (ex.message.indexOf('KaTeX parse error') === 0) { // TeX syntax error
+        if (ex.message.startsWith('KaTeX parse error')) { // TeX syntax error
             return '<span class="tex-error">' + escape(fullmatch) + '</span>';
         }
         blueslip.error(ex);

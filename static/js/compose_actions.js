@@ -20,11 +20,11 @@ exports.blur_textarea = function () {
 
 function hide_box() {
     exports.blur_textarea();
-    // $('#stream-message').hide();
-    // $('#private-message').hide();
+    $('#stream-message').hide();
+    $('#private-message').hide();
     $(".new_message_textarea").css("min-height", "");
     compose_fade.clear_compose();
-    // $('.message_comp').hide();
+    $('.message_comp').hide();
     $("#compose_controls").show();
     compose.clear_preview_area();
 }
@@ -68,8 +68,6 @@ function show_box(msg_type, opts) {
     if (msg_type === "stream") {
         $('#private-message').hide();
         $('#stream-message').show();
-        $('#stream-message #subject').val('General');
-        setTimeout(function(){ $('.new_message_textarea').focus(); }, 200);
         $("#stream_toggle").addClass("active");
         $("#private_message_toggle").removeClass("active");
     } else {

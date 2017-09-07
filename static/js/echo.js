@@ -90,7 +90,6 @@ function insert_local_message(message_request, local_id) {
     // Locally delivered messages cannot be unread (since we sent them), nor
     // can they alert the user.
     message.flags = ['read']; // we may add more flags later
-    message.unread = false;
 
     message.raw_content = message.content;
 
@@ -105,6 +104,7 @@ function insert_local_message(message_request, local_id) {
     message.local_id = local_id;
     message.locally_echoed = true;
     message.id = message.local_id;
+    markdown.add_message_flags(message);
     markdown.add_subject_links(message);
 
     waiting_for_id[message.local_id] = message;

@@ -9,15 +9,6 @@ var BOTTOM_RIGHT = 'BOTTOM_RIGHT';
 var BOTTOM_LEFT = 'BOTTOM_LEFT';
 var CENTER = 'CENTER';
 
-// popover orientations
-var TOP = 'top';
-var LEFT = 'left';
-var RIGHT = 'right';
-var BOTTOM = 'bottom';
-var VIEWPORT_CENTER = 'viewport_center';
-
-// popover orientation can optionally be fixed here (property: popover),
-// otherwise popovers.compute_placement is used to compute orientation
 var HOTSPOT_LOCATIONS = {
     click_to_reply: {
         element: '.selected_message .messagebox-content',
@@ -32,10 +23,6 @@ var HOTSPOT_LOCATIONS = {
         icon: CENTER,
     },
 };
-
-// popover illustration url(s)
-var WHALE = '/static/images/hotspots/whale.svg';
-
 
 exports.map_hotspots_to_DOM = function (hotspots, locations) {
     hotspots.forEach(function (hotspot) {
@@ -54,7 +41,7 @@ exports.post_hotspot_as_read = function (hotspot_name) {
 };
 
 function place_icon(hotspot) {
-    if ($(hotspot.location.element).length !== 0) {
+    if (!$(hotspot.location.element).length === 0) {
         $('#hotspot_' + hotspot.name + '_icon').css('display', 'none');
         return;
     }
@@ -125,6 +112,7 @@ function place_icon(hotspot) {
 
 function place_popover(hotspot) {
     if (!hotspot.location.element) {
+
         return;
     }
 
@@ -136,16 +124,8 @@ function place_popover(hotspot) {
 
     var popover_offset;
     var arrow_placement;
-    var orientation = hotspot.location.popover ||
-        popovers.compute_placement(
-            $(hotspot.location.element),
-            popover_height,
-            popover_width,
-            false
-        );
-
-    switch (orientation) {
-        case TOP:
+    switch (popovers.compute_placement($(hotspot.location.element))) {
+        case 'top':
             popover_offset = {
                 top: -(popover_height + arrow_offset),
                 left: (el_width / 2) - (popover_width / 2),
@@ -153,7 +133,7 @@ function place_popover(hotspot) {
             arrow_placement = 'bottom';
             break;
 
-        case LEFT:
+        case 'left':
             popover_offset = {
                 top: (el_height / 2) - (popover_height / 2),
                 left: -(popover_width + arrow_offset),
@@ -161,7 +141,7 @@ function place_popover(hotspot) {
             arrow_placement = 'right';
             break;
 
-        case BOTTOM:
+        case 'bottom':
             popover_offset = {
                 top: el_height + arrow_offset,
                 left: (el_width / 2) - (popover_width / 2),
@@ -169,20 +149,12 @@ function place_popover(hotspot) {
             arrow_placement = 'top';
             break;
 
-        case RIGHT:
+        case 'right':
             popover_offset = {
                 top: (el_height / 2) - (popover_height / 2),
                 left: el_width + arrow_offset,
             };
             arrow_placement = 'left';
-            break;
-
-        case VIEWPORT_CENTER:
-            popover_offset = {
-                top: el_height / 2,
-                left: el_width / 2,
-            };
-            arrow_placement = '';
             break;
 
         default:
@@ -200,21 +172,11 @@ function place_popover(hotspot) {
         .addClass(arrow_placement);
 
     // position popover
-    var popover_placement;
-    if (orientation === VIEWPORT_CENTER) {
-        popover_placement = {
-            top: '45%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-        };
-    } else {
-        var client_rect = $(hotspot.location.element).get(0).getBoundingClientRect();
-        popover_placement = {
-            top: client_rect.top + popover_offset.top,
-            left: client_rect.left + popover_offset.left,
-            transform: '',
-        };
-    }
+    var client_rect = $(hotspot.location.element).get(0).getBoundingClientRect();
+    var popover_placement = {
+        top: client_rect.top + popover_offset.top,
+        left: client_rect.left + popover_offset.left,
+    };
 
     $('#hotspot_' + hotspot.name + '_overlay .hotspot-popover')
         .css(popover_placement);
@@ -225,7 +187,6 @@ function insert_hotspot_into_DOM(hotspot) {
         name: hotspot.name,
         title: hotspot.title,
         description: hotspot.description,
-        img: WHALE,
     });
 
     var hotspot_icon_HTML =
@@ -244,17 +205,13 @@ function insert_hotspot_into_DOM(hotspot) {
         // reposition on any event that might update the UI
         ['resize', 'scroll', 'onkeydown', 'click']
         .forEach(function (event_name) {
-            window.addEventListener(event_name, _.debounce(function () {
+            window.addEventListener(event_name, function () {
                 place_icon(hotspot);
                 place_popover(hotspot);
-            }, 10), true);
+            }, true);
         });
     }, (hotspot.delay * 100));
 }
-
-exports.is_open = function () {
-    return $('.hotspot.overlay').hasClass('show');
-};
 
 exports.load_new = function (new_hotspots) {
     exports.map_hotspots_to_DOM(new_hotspots, HOTSPOT_LOCATIONS);

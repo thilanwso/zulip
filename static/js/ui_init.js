@@ -269,7 +269,6 @@ $(function () {
     drafts.initialize();
     sent_messages.initialize();
     compose.initialize();
-    ui.initialize();
 });
 
 

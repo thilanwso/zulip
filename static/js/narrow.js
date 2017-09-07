@@ -169,7 +169,12 @@ exports.activate = function (raw_operators, opts) {
     function maybe_select_closest() {
         if (! message_list.narrowed.empty()) {
             if (opts.select_first_unread) {
-                then_select_id = message_list.narrowed.first_unread_message_id();
+                then_select_id = message_list.narrowed.last().id;
+                var first_unread =
+                    _.find(message_list.narrowed.all_messages(), unread.message_unread);
+                if (first_unread) {
+                    then_select_id = first_unread.id;
+                }
             }
 
             var preserve_pre_narrowing_screen_position =
@@ -212,7 +217,7 @@ exports.activate = function (raw_operators, opts) {
         msg_list: message_list.narrowed,
         use_first_unread_anchor: opts.use_initial_narrow_pointer,
         cont: function () {
-            message_fetch.reset_load_more_status();
+            ui.hide_loading_more_messages_indicator();
             if (defer_selecting_closest) {
                 maybe_select_closest();
             }
@@ -243,10 +248,6 @@ exports.activate = function (raw_operators, opts) {
     compose_actions.on_narrow();
 
     var current_filter = narrow_state.get_current_filter();
-
-    top_left_corner.handle_narrow_activated(current_filter);
-    stream_list.handle_narrow_activated(current_filter);
-
     $(document).trigger($.Event('narrow_activated.zulip', {msg_list: message_list.narrowed,
                                                             filter: current_filter,
                                                             trigger: opts.trigger}));
@@ -406,7 +407,12 @@ exports.deactivate = function () {
             // We read some unread messages in a narrow. Instead of going back to
             // where we were before the narrow, go to our first unread message (or
             // the bottom of the feed, if there are no unread messages).
-            message_id_to_select = current_msg_list.first_unread_message_id();
+            var first_unread = _.find(current_msg_list.all_messages(), unread.message_unread);
+            if (first_unread) {
+                message_id_to_select = first_unread.id;
+            } else {
+                message_id_to_select = current_msg_list.last().id;
+            }
         } else {
             // We narrowed, but only backwards in time (ie no unread were read). Try
             // to go back to exactly where we were before narrowing.
@@ -422,9 +428,6 @@ exports.deactivate = function () {
     }
 
     compose_fade.update_message_list();
-
-    top_left_corner.handle_narrow_deactivated();
-    stream_list.handle_narrow_deactivated();
 
     $(document).trigger($.Event('narrow_deactivated.zulip', {msg_list: current_msg_list}));
 

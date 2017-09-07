@@ -4,7 +4,6 @@ import i18next from 'i18next';
 import XHR from 'i18next-xhr-backend';
 import LngDetector from 'i18next-browser-languagedetector';
 import Cache from 'i18next-localstorage-cache';
-import localstorage from './localstorage';
 
 window.i18n = i18next;
 
@@ -71,7 +70,7 @@ $(function () {
     var current_generation_key = 'i18next:' + page_params.server_generation;
     // remove cached translations of older versions.
     translations.forEach(function (translation_key) {
-        if (!translation_key.indexOf(current_generation_key) === 0) {
+        if (!translation_key.startsWith(current_generation_key)) {
             localStorage.removeItem(translation_key);
         }
     });
